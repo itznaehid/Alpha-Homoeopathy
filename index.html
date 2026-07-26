@@ -1,0 +1,801 @@
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'/>
+    <meta content='width=device-width, initial-scale=1.0' name='viewport'/>
+    <title>Alpha Homoeopathy</title>
+
+    <!-- ========== CUSTOM STYLES ========== -->
+    <style>
+        :root {
+            --green-dark: #2d5a3f;
+            --green-mid: #4a8b5c;
+            --green-light: #7db88f;
+            --green-pale: #c8e6c9;
+            --cream: #fdf8f0;
+            --white: #ffffff;
+            --gold: #c9a84c;
+            --gold-light: #e8d5a3;
+            --text-dark: #2c2c2c;
+            --text-medium: #4a4a4a;
+            --text-light: #6b6b6b;
+            --border-soft: #e8e0d5;
+            --shadow-sm: 0 2px 8px rgba(0,0,0,0.06);
+            --shadow-md: 0 4px 20px rgba(0,0,0,0.1);
+            --shadow-lg: 0 8px 40px rgba(0,0,0,0.12);
+            --radius-sm: 8px;
+            --radius-md: 14px;
+            --transition: 0.3s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        html { scroll-behavior: smooth; }
+        body {
+            font-family: 'Segoe UI', 'Inter', system-ui, sans-serif;
+            background: var(--cream);
+            color: var(--text-dark);
+            line-height: 1.7;
+        }
+
+        .top-bar {
+            background: var(--green-dark);
+            color: #fff;
+            text-align: center;
+            padding: 8px 16px;
+            font-size: 0.85rem;
+        }
+        .top-bar span { color: var(--gold-light); font-weight: 600; }
+
+        .header {
+            background: var(--white);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: var(--shadow-sm);
+            transition: box-shadow var(--transition);
+        }
+        .header.scrolled { box-shadow: var(--shadow-md); }
+        .header-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 12px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+        }
+        .logo-area {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        .logo-icon {
+            width: 50px; height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--green-mid), var(--green-dark));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            color: #fff;
+            flex-shrink: 0;
+        }
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--green-dark);
+            line-height: 1.2;
+        }
+        .logo-text small {
+            display: block;
+            font-size: 0.7rem;
+            font-weight: 400;
+            letter-spacing: 2px;
+            color: var(--green-mid);
+        }
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 8px;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-medium);
+            font-weight: 500;
+            padding: 10px 16px;
+            border-radius: 25px;
+            transition: all var(--transition);
+            font-size: 0.95rem;
+            white-space: nowrap;
+        }
+        .nav-links a:hover,
+        .nav-links a.active {
+            background: var(--green-pale);
+            color: var(--green-dark);
+        }
+        .nav-cta {
+            background: var(--green-dark) !important;
+            color: #fff !important;
+            font-weight: 600 !important;
+        }
+        .nav-cta:hover {
+            background: var(--green-mid) !important;
+            transform: translateY(-1px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--green-dark);
+        }
+
+        .search-form {
+            display: flex;
+            align-items: center;
+            background: var(--cream);
+            border: 2px solid var(--border-soft);
+            border-radius: 25px;
+            padding: 4px 6px 4px 16px;
+            margin-left: 4px;
+            transition: border-color var(--transition);
+        }
+        .search-form:focus-within {
+            border-color: var(--green-mid);
+        }
+        .search-form input[type='text'] {
+            border: none;
+            background: transparent;
+            outline: none;
+            font-family: inherit;
+            font-size: 0.9rem;
+            width: 150px;
+            color: var(--text-dark);
+        }
+        .search-form button {
+            background: var(--green-dark);
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            width: 34px;
+            height: 34px;
+            flex-shrink: 0;
+            cursor: pointer;
+            font-size: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background var(--transition);
+        }
+        .search-form button:hover { background: var(--green-mid); }
+
+        .hero {
+            background: linear-gradient(160deg, #f0f7f2, #e8f0e6, #fdf8f0);
+            padding: 70px 24px 80px;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+        .hero-content { flex: 1 1 400px; }
+        .hero-badge {
+            display: inline-block;
+            background: var(--green-pale);
+            color: var(--green-dark);
+            padding: 6px 16px;
+            border-radius: 25px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            margin-bottom: 18px;
+        }
+        .hero h1 {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--green-dark);
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-medium);
+            margin-bottom: 28px;
+            max-width: 500px;
+        }
+        .hero-buttons {
+            display: flex;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            display: inline-block;
+            padding: 14px 30px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 1rem;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all var(--transition);
+            border: none;
+            text-align: center;
+        }
+        .btn-primary {
+            background: var(--green-dark);
+            color: #fff;
+        }
+        .btn-primary:hover {
+            background: #1e422b;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        .btn-outline {
+            background: transparent;
+            color: var(--green-dark);
+            border: 2px solid var(--green-dark);
+        }
+        .btn-outline:hover {
+            background: var(--green-dark);
+            color: #fff;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
+        .hero-image {
+            flex: 1 1 350px;
+            text-align: center;
+        }
+        .hero-image .img-placeholder {
+            width: 100%;
+            max-width: 420px;
+            aspect-ratio: 1/1;
+            background: linear-gradient(145deg, #d4e8d7, #bfd8c3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 8rem;
+            margin: 0 auto;
+            box-shadow: var(--shadow-lg);
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+        .section-title .subtitle {
+            display: inline-block;
+            background: var(--green-pale);
+            color: var(--green-dark);
+            padding: 5px 18px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            margin-bottom: 12px;
+        }
+        .section-title h2 {
+            font-size: 2.2rem;
+            color: var(--green-dark);
+            font-weight: 700;
+        }
+        .section-title .divider {
+            width: 60px;
+            height: 4px;
+            background: var(--gold);
+            border-radius: 4px;
+            margin: 14px auto 0;
+        }
+
+        /* Blog grid */
+        .blog-section {
+            padding: 70px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .blog-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 40px;
+            max-width: 780px;
+            margin: 0 auto;
+        }
+        .blog-card {
+            background: var(--white);
+            border-radius: var(--radius-md);
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition);
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+        .blog-card:hover {
+            box-shadow: var(--shadow-lg);
+        }
+        .blog-card-image {
+            width: 100%;
+            aspect-ratio: 16/8;
+            background: linear-gradient(135deg, #c8e6c9, #a5d6a7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3.5rem;
+            position: relative;
+        }
+        .blog-card-body {
+            padding: 30px 28px 32px;
+            flex: 1;
+        }
+        .post-title {
+            font-size: 1.6rem;
+            color: var(--green-dark);
+            font-weight: 700;
+            margin-bottom: 14px;
+            line-height: 1.35;
+        }
+        .post-snippet {
+            font-size: 1rem;
+            color: var(--text-medium);
+            margin-bottom: 16px;
+        }
+        .read-more {
+            color: var(--green-mid);
+            font-weight: 600;
+            text-decoration: none;
+        }
+        /* Full post content rendered inline on the homepage/index */
+        .post-content-full {
+            font-size: 1.02rem;
+            color: var(--text-medium);
+        }
+        .post-content-full img {
+            max-width: 100%;
+            height: auto;
+            border-radius: var(--radius-sm);
+            margin: 14px 0;
+        }
+        .post-content-full p { margin-bottom: 14px; }
+        .post-content-full h1,
+        .post-content-full h2,
+        .post-content-full h3,
+        .post-content-full h4 {
+            color: var(--green-dark);
+            margin: 20px 0 10px;
+        }
+        .post-content-full ul,
+        .post-content-full ol { margin: 0 0 14px 22px; }
+        .post-content-full a { color: var(--green-mid); }
+        .post-divider {
+            border: none;
+            border-top: 1px solid var(--border-soft);
+            margin: 6px 28px 0;
+        }
+
+        .about-section {
+            background: var(--white);
+            padding: 70px 24px;
+        }
+        .about-inner {
+            max-width: 1000px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+        .about-text { flex: 2 1 400px; }
+        .about-stats {
+            display: flex;
+            gap: 30px;
+            margin-top: 20px;
+        }
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--gold);
+        }
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-light);
+            text-transform: uppercase;
+        }
+
+        .services-section {
+            padding: 70px 24px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 24px;
+        }
+        .service-card {
+            background: var(--white);
+            padding: 30px 22px;
+            border-radius: var(--radius-md);
+            text-align: center;
+            box-shadow: var(--shadow-sm);
+            transition: all var(--transition);
+            border: 1px solid transparent;
+        }
+        .service-card:hover {
+            border-color: var(--green-pale);
+            box-shadow: var(--shadow-md);
+            transform: translateY(-4px);
+        }
+        .service-icon { font-size: 3rem; margin-bottom: 16px; }
+
+        .quote-section {
+            background: linear-gradient(135deg, var(--green-dark), #1e422b);
+            padding: 60px 24px;
+            text-align: center;
+            color: #fff;
+        }
+        .quote-section blockquote {
+            font-size: 1.4rem;
+            font-style: italic;
+            margin-bottom: 18px;
+        }
+        .quote-section .attribution {
+            color: var(--gold-light);
+            font-weight: 600;
+        }
+
+        .newsletter-section {
+            padding: 60px 24px;
+            max-width: 700px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .newsletter-form {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .newsletter-form input {
+            flex: 1 1 280px;
+            padding: 14px 20px;
+            border-radius: 30px;
+            border: 2px solid var(--border-soft);
+        }
+        .newsletter-form button { flex: 0 0 auto; }
+
+        .contact-section {
+            background: var(--white);
+            padding: 70px 24px;
+        }
+        .contact-inner {
+            max-width: 900px;
+            margin: 0 auto;
+            display: flex;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+        .contact-info { flex: 1 1 280px; }
+        .contact-form-area { flex: 2 1 350px; }
+        .contact-form-area form {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .contact-form-area input,
+        .contact-form-area textarea {
+            padding: 14px 18px;
+            border-radius: var(--radius-sm);
+            border: 2px solid var(--border-soft);
+            background: var(--cream);
+            font-family: inherit;
+        }
+        .contact-form-area textarea { min-height: 120px; resize: vertical; }
+
+        .footer {
+            background: var(--green-dark);
+            color: rgba(255,255,255,0.85);
+            padding: 50px 24px 30px;
+        }
+        .footer-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 30px;
+        }
+        .footer-col a {
+            color: rgba(255,255,255,0.75);
+            text-decoration: none;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .footer-col a:hover { color: var(--gold-light); }
+        .footer-bottom {
+            text-align: center;
+            margin-top: 30px;
+            border-top: 1px solid rgba(255,255,255,0.2);
+            padding-top: 30px;
+            font-size: 0.85rem;
+            color: rgba(255,255,255,0.6);
+        }
+
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 46px; height: 46px;
+            border-radius: 50%;
+            background: var(--green-dark);
+            color: #fff;
+            border: none;
+            font-size: 1.3rem;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity var(--transition);
+            z-index: 999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+        .back-to-top.visible { opacity: 1; pointer-events: auto; }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            .hero-inner { flex-direction: column; text-align: center; }
+            .hero-buttons { justify-content: center; }
+            .hero-image .img-placeholder { max-width: 260px; font-size: 5rem; }
+            .nav-links {
+                display: none;
+                flex-direction: column;
+                background: var(--white);
+                padding: 16px;
+                border-radius: var(--radius-sm);
+                box-shadow: var(--shadow-md);
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+            }
+            .nav-links.open { display: flex; }
+            .menu-toggle { display: block; }
+            .header-inner { position: relative; }
+            .search-form { margin: 8px 0 4px; width: 100%; }
+            .search-form input[type='text'] { flex: 1; width: auto; }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Top bar -->
+    <div class='top-bar'>
+        🌿 <span>Alpha Homoeopathy</span> &#8212; Gentle Healing, Naturally. &#160;|&#160; 📞 Call: +91 98765 43210
+    </div>
+
+    <!-- Header -->
+    <header class='header' id='header'>
+        <div class='header-inner'>
+            <a class='logo-area' href='/'>
+                <div class='logo-icon'>🌱</div>
+                <div class='logo-text'>ALPHA<br/><small>Homoeopathy</small></div>
+            </a>
+            <button aria-label='Toggle menu' class='menu-toggle' id='menuToggle'>&#9776;</button>
+            <nav>
+                <ul class='nav-links' id='navLinks'>
+                    <li><a href='/'>Home</a></li>
+                    <li><a href='/search/label/Materia%20Medica'>Materia Medica</a></li>
+                    <li><a href='/search/label/Organon'>Organon</a></li>
+                    <li><a href='/search/label/Cases'>Cases</a></li>
+                    <li>
+                        <form action='/search' class='search-form' method='get' role='search'>
+                            <input aria-label='Search this blog' autocomplete='off' name='q' placeholder='Search articles...' type='text'/>
+                            <button aria-label='Search' title='Search' type='submit'>🔍</button>
+                        </form>
+                    </li>
+                    <li><a class='nav-cta' href='#contact'>Book Consultation</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class='hero' id='home'>
+        <div class='hero-inner'>
+            <div class='hero-content'>
+                <span class='hero-badge'>🌿 Classical Homoeopathy</span>
+                <h1>Heal Naturally with <span style='color:var(--gold);'>Alpha</span> Homoeopathy</h1>
+                <p>Gentle, personalized homeopathic treatments that address the root cause &#8212; not just the symptoms.</p>
+                <div class='hero-buttons'>
+                    <a class='btn btn-primary' href='#contact'>Book a Consultation</a>
+                    <a class='btn btn-outline' href='#blog'>Read Our Blog</a>
+                </div>
+            </div>
+            <div class='hero-image'>
+                <div class='img-placeholder'>💊🌿</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Blog Section (static preview -- connect to a real blog/CMS to make this dynamic) -->
+    <section class='blog-section' id='blog'>
+        <div class='section-title'>
+            <span class='subtitle'>Our Blog</span>
+            <h2>Latest Articles</h2>
+            <div class='divider'></div>
+        </div>
+        <div class='blog-grid'>
+            <article class='blog-card'>
+                <div class='blog-card-image'>🌿</div>
+                <div class='blog-card-body'>
+                    <h3 class='post-title'><a href='#' style='text-decoration:none;color:inherit;'>Understanding Constitutional Homoeopathy</a></h3>
+                    <p class='post-snippet'>An introduction to how classical homoeopathy looks at the whole person, not just isolated symptoms, to find the right remedy.</p>
+                    <a class='read-more' href='#'>Read More &#8594;</a>
+                </div>
+            </article>
+            <article class='blog-card'>
+                <div class='blog-card-image'>🧘</div>
+                <div class='blog-card-body'>
+                    <h3 class='post-title'><a href='#' style='text-decoration:none;color:inherit;'>Homoeopathy for Anxiety and Stress</a></h3>
+                    <p class='post-snippet'>Gentle remedies that can support emotional balance alongside lifestyle changes and professional care.</p>
+                    <a class='read-more' href='#'>Read More &#8594;</a>
+                </div>
+            </article>
+            <article class='blog-card'>
+                <div class='blog-card-image'>👶</div>
+                <div class='blog-card-body'>
+                    <h3 class='post-title'><a href='#' style='text-decoration:none;color:inherit;'>Common Childhood Ailments &amp; Natural Care</a></h3>
+                    <p class='post-snippet'>A look at safe, gentle homoeopathic approaches for common complaints in infants and young children.</p>
+                    <a class='read-more' href='#'>Read More &#8594;</a>
+                </div>
+            </article>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section class='about-section' id='about'>
+        <div class='about-inner'>
+            <div class='about-text'>
+                <span class='hero-badge'>About Us</span>
+                <h2>Dr. Arjun Sharma, BHMS</h2>
+                <p>Over 15 years of classical homoeopathy experience. A graduate of the National Institute of Homoeopathy, he treats the whole person &#8211; not just the disease.</p>
+                <div class='about-stats'>
+                    <div class='stat-item'><div class='stat-number'>5,000+</div><div class='stat-label'>Happy Patients</div></div>
+                    <div class='stat-item'><div class='stat-number'>15+</div><div class='stat-label'>Years Exp.</div></div>
+                    <div class='stat-item'><div class='stat-number'>200+</div><div class='stat-label'>Conditions</div></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services -->
+    <section class='services-section' id='services'>
+        <div class='section-title'>
+            <span class='subtitle'>Services</span>
+            <h2>Our Homoeopathic Care</h2>
+            <div class='divider'></div>
+        </div>
+        <div class='services-grid'>
+            <div class='service-card'><span class='service-icon'>🩺</span><h3>Constitutional</h3><p>Deep-acting remedies for lasting healing.</p></div>
+            <div class='service-card'><span class='service-icon'>👶</span><h3>Pediatric</h3><p>Gentle care for children of all ages.</p></div>
+            <div class='service-card'><span class='service-icon'>🌸</span><h3>Women&#8217;s Wellness</h3><p>Hormonal balance, fertility, menopause.</p></div>
+            <div class='service-card'><span class='service-icon'>🧘</span><h3>Mental Health</h3><p>Natural anxiety &amp; depression relief.</p></div>
+            <div class='service-card'><span class='service-icon'>🌿</span><h3>Chronic Disease</h3><p>Asthma, arthritis, skin, thyroid.</p></div>
+            <div class='service-card'><span class='service-icon'>💻</span><h3>Online Consultation</h3><p>Expert care via video call.</p></div>
+        </div>
+    </section>
+
+    <!-- Quote -->
+    <section class='quote-section'>
+        <div style='font-size:4rem; opacity:0.6;'>&#10077;</div>
+        <blockquote>&#8220;The highest ideal of cure is the rapid, gentle, and permanent restoration of health.&#8221;</blockquote>
+        <p class='attribution'>&#8212; Dr. Samuel Hahnemann</p>
+    </section>
+
+    <!-- Newsletter -->
+    <section class='newsletter-section'>
+        <h2>📬 Stay Updated</h2>
+        <p>Get homeopathy insights straight to your inbox.</p>
+        <form class='newsletter-form' onsubmit='event.preventDefault(); alert(&apos;Thank you for subscribing!&apos;);'>
+            <input placeholder='Your email address' required='required' type='email'/>
+            <button class='btn btn-primary' type='submit'>Subscribe</button>
+        </form>
+    </section>
+
+    <!-- Contact Form (Formspree &#8211; replace YOUR_FORM_ID) -->
+    <section class='contact-section' id='contact'>
+        <div class='section-title'>
+            <span class='subtitle'>Get In Touch</span>
+            <h2>Contact Us</h2>
+            <div class='divider'></div>
+        </div>
+        <div class='contact-inner'>
+            <div class='contact-info'>
+                <h2>Let&#8217;s Talk</h2>
+                <p>📍 42, Green Park Colony, New Delhi - 110016</p>
+                <p>📞 +91 98765 43210</p>
+                <p>&#9993;&#65039; contact@alphahomoeopathy.com</p>
+            </div>
+            <div class='contact-form-area'>
+                <form action='https://formspree.io/f/meeypvad' method='POST'>
+                    <!-- Replace YOUR_FORM_ID with the actual ID from Formspree -->
+                    <input name='name' placeholder='Your Name' required='required' type='text'/>
+                    <input name='email' placeholder='Your Email' required='required' type='email'/>
+                    <input name='phone' placeholder='Phone Number' type='text'/>
+                    <textarea name='message' placeholder='Your message...' required='required'></textarea>
+                    <button class='btn btn-primary' type='submit'>Send Message</button>
+                </form>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class='footer'>
+        <div class='footer-inner'>
+            <div class='footer-col'>
+                <h4>🌱 Alpha Homoeopathy</h4>
+                <p>Gentle, natural healing since 2011.</p>
+            </div>
+            <div class='footer-col'>
+                <h4>Quick Links</h4>
+                <a href='/'>Home</a>
+                <a href='#about'>About</a>
+                <a href='#services'>Services</a>
+                <a href='#contact'>Contact</a>
+            </div>
+            <div class='footer-col'>
+                <h4>Categories</h4>
+                <a href='/search/label/Materia%20Medica'>Materia Medica</a>
+                <a href='/search/label/Organon'>Organon</a>
+                <a href='/search/label/Cases'>Cases</a>
+            </div>
+        </div>
+        <div class='footer-bottom'>
+            <p>&#169; 2026 Alpha Homoeopathy. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <button class='back-to-top' id='backToTop' title='Back to top'>&#8593;</button>
+
+    <script>
+        //<![CDATA[
+        (function() {
+            var menuToggle = document.getElementById('menuToggle');
+            var navLinks = document.getElementById('navLinks');
+            menuToggle.addEventListener('click', function() {
+                navLinks.classList.toggle('open');
+                menuToggle.textContent = navLinks.classList.contains('open') ? '✕' : '☰';
+            });
+
+            var backBtn = document.getElementById('backToTop');
+            window.addEventListener('scroll', function() {
+                backBtn.classList.toggle('visible', window.scrollY > 500);
+            });
+            backBtn.addEventListener('click', function() {
+                window.scrollTo({top: 0, behavior: 'smooth'});
+            });
+
+            document.querySelectorAll('a[href^="#"]').forEach(function(anchor) {
+                anchor.addEventListener('click', function(e) {
+                    var target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        e.preventDefault();
+                        target.scrollIntoView({behavior: 'smooth'});
+                    }
+                });
+            });
+        })();
+        //]]>
+    </script>
+</body>
+</html>
